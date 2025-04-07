@@ -127,7 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Struktury_danych_1.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="DynamicArray.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DynamicArray.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
