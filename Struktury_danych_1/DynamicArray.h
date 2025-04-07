@@ -3,24 +3,29 @@
 
 class DynamicArray {
 private:
-    int* data;
+    int* arr;         
     int size;
     int capacity;
     void resize();
 
 public:
-    DynamicArray(int initialCapacity = 4);
+    DynamicArray(int set_capacity);
     ~DynamicArray();
 
-    void pushBack(int value);
+    void pushBack(int val);
+    void pushFront(int val);
+    void pushAt(int index, int val);
+
+    
+    
     void popBack();
+    void popFront();
+    void popAt(int index);
 
-    int get(int index) const;
-    void set(int index, int value);
+    int search(int val);
+    int get(int index);
 
-    int getSize() const;
     void print() const;
 };
 
-#endif // DYNAMIC_ARRAY_H
-
+#endif
