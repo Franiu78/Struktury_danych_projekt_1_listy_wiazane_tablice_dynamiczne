@@ -1,7 +1,8 @@
-#include <iostream>
+﻿#include <iostream>
 #include <chrono>
 #include <functional>
 #include "DynamicArray.h"
+#include "LinkedLIst.h"
 
 using namespace std;
 using namespace std::chrono;
