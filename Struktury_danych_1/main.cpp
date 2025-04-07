@@ -1,20 +1,79 @@
-﻿// Struktury_danych_1.cpp : Ten plik zawiera funkcję „main”. W nim rozpoczyna się i kończy wykonywanie programu.
-//
-
 #include <iostream>
+#include <chrono>
+#include <functional>
+#include "DynamicArray.h"
 
-int main()
-{
-    std::cout << "Hello World!\n";
+using namespace std;
+using namespace std::chrono;
+
+// Uniwersalna funkcja do pomiaru czasu działania
+void measureTime(const string& label, const function<void()>& func) {
+    auto start = high_resolution_clock::now();
+    func();
+    auto end = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(end - start);
+    cout << label << ": " << duration.count() << " ms" << endl;
 }
 
-// Uruchomienie programu: Ctrl + F5 lub menu Debugowanie > Uruchom bez debugowania
-// Debugowanie programu: F5 lub menu Debugowanie > Rozpocznij debugowanie
+int main() {
+    const int N = 100000;
 
-// Porady dotyczące rozpoczynania pracy:
-//   1. Użyj okna Eksploratora rozwiązań, aby dodać pliki i zarządzać nimi
-//   2. Użyj okna programu Team Explorer, aby nawiązać połączenie z kontrolą źródła
-//   3. Użyj okna Dane wyjściowe, aby sprawdzić dane wyjściowe kompilacji i inne komunikaty
-//   4. Użyj okna Lista błędów, aby zobaczyć błędy
-//   5. Wybierz pozycję Projekt > Dodaj nowy element, aby utworzyć nowe pliki kodu, lub wybierz pozycję Projekt > Dodaj istniejący element, aby dodać istniejące pliku kodu do projektu
-//   6. Aby w przyszłości ponownie otworzyć ten projekt, przejdź do pozycji Plik > Otwórz > Projekt i wybierz plik sln
+    DynamicArray arr1(4);
+    DynamicArray arr2(4);
+    DynamicArray arr3(4);
+    DynamicArray arr4(4);
+    DynamicArray arr5(4);
+    DynamicArray arr6(4);
+
+    // pushBack
+    measureTime("pushBack", [&]() {
+        for (int i = 0; i < N; ++i)
+            arr1.pushBack(i);
+        });
+
+    // pushFront
+    measureTime("pushFront", [&]() {
+        for (int i = 0; i < N; ++i)
+            arr2.pushFront(i);
+        });
+
+    // pushAt (do środka - liczony ręcznie)
+    int currentSize = 0;
+    measureTime("pushAt (środek)", [&]() {
+        for (int i = 0; i < N; ++i) {
+            arr3.pushAt(currentSize / 2, i);
+            currentSize++;
+        }
+        });
+
+    // popBack
+    measureTime("popBack", [&]() {
+        for (int i = 0; i < N; ++i)
+            arr1.popBack();
+        });
+
+    // popFront
+    measureTime("popFront", [&]() {
+        for (int i = 0; i < N; ++i)
+            arr2.popFront();
+        });
+
+    // popAt (z środka) – przygotowanie
+    for (int i = 0; i < N; ++i) arr4.pushBack(i);
+    currentSize = N;
+    measureTime("popAt (środek)", [&]() {
+        for (int i = 0; i < N; ++i) {
+            arr4.popAt(currentSize / 2);
+            currentSize--;
+        }
+        });
+
+    // search – przygotowanie
+    for (int i = 0; i < N; ++i) arr5.pushBack(i);
+    measureTime("search", [&]() {
+        for (int i = 0; i < N; ++i)
+            arr5.search(i);
+        });
+
+    return 0;
+}
