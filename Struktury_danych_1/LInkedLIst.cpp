@@ -44,12 +44,11 @@ void LinkedList::addToStart(int val) {
         // Jeśli lista jest pusta, nowy węzeł staje się zarówno początkiem jak i końcem
         head = end = newNode;
     } else {
-        // Nowy węzeł staje się nowym początkiem listy
         newNode->next = head;
         head = newNode;
     }
     counter++;
-    cout << "Dodano element " << val << " na początek." << endl;
+    //cout << "Dodano element " << val << " na początek." << endl;
 }
 
 // Dodaje nowy element na koniec listy
@@ -59,12 +58,11 @@ void LinkedList::addToEnd(int val) {
         // Jeśli lista jest pusta, nowy węzeł staje się zarówno początkiem jak i końcem
         head = end = newNode;
     } else {
-        // Dodajemy nowy węzeł za dotychczasowym końcem listy
         end->next = newNode;
         end = newNode;
     }
     counter++;
-    cout << "Dodano element " << val << " na koniec." << endl;
+    //cout << "Dodano element " << val << " na koniec." << endl;
 }
 
 // Dodaje nowy element na określoną pozycję w liście
@@ -97,7 +95,7 @@ void LinkedList::addToPosition(int val, int pos) {
     newNode->next = curr->next;
     curr->next = newNode;
     counter++;
-    cout << "Dodano element " << val << " na pozycję " << pos << "." << endl;
+    //cout << "Dodano element " << val << " na pozycję " << pos << "." << endl;
 }
 
 // Usuwa element z początku listy
@@ -113,13 +111,12 @@ void LinkedList::deleteFromStart() {
         // Jeśli jest tylko jeden element w liście
         head = end = nullptr;
     } else {
-        // Przesuwamy wskaźnik head na następny element
         head = head->next;
     }
 
     delete curr;
     counter--;
-    cout << "Usunięto " << deleteVal << " z początku." << endl;
+   // cout << "Usunięto " << deleteVal << " z początku." << endl;
 }
 
 // Usuwa element z końca listy
@@ -135,7 +132,6 @@ void LinkedList::deleteFromEnd() {
         delete head;
         head = end = nullptr;
     } else {
-        // Musimy znaleźć przedostatni element
         Node* before = head;
         while (before->next != end) {
             before = before->next;
@@ -145,7 +141,7 @@ void LinkedList::deleteFromEnd() {
         end->next = nullptr;
     }
     counter--;
-    cout << "Usunięto " << deleteVal << " z końca." << endl;
+    //cout << "Usunięto " << deleteVal << " z końca." << endl;
 }
 
 // Usuwa element z określonej pozycji
@@ -182,7 +178,7 @@ void LinkedList::deleteFromPos(int pos) {
     before->next = toDelete->next;
     delete toDelete;
     counter--;
-    cout << "Usunięto " << deleteVal << " z pozycji " << pos << "." << endl;
+  //  cout << "Usunięto " << deleteVal << " z pozycji " << pos << "." << endl;
 }
 
 // Wyszukuje element o podanej wartości i zwraca jego pozycję
@@ -197,25 +193,25 @@ int LinkedList::find(int findVal) {
     // Przeglądamy całą listę w poszukiwaniu elementu
     while (curr != nullptr) {
         if (curr->data == findVal) {
-            cout << "Znaleziono wartość " << findVal << " na pozycji " << pos << "." << endl;
+      //      cout << "Znaleziono wartość " << findVal << " na pozycji " << pos << "." << endl;
             return pos;
         }
         curr = curr->next;
         pos++;
     }
 
-    cout << "Nie znaleziono wartości " << findVal << "." << endl;
+    //cout << "Nie znaleziono wartości " << findVal << "." << endl;
     return -1;
 }
 
 // Wyświetla zawartość całej listy
 void LinkedList::show() const {
     if (isEmpty()) {
-        cout << "Lista jest pusta." << endl;
+    //    cout << "Lista jest pusta." << endl;
         return;
     }
 
-    cout << "Lista zawiera " << counter << " elementów: ";
+  //  cout << "Lista zawiera " << counter << " elementów: ";
     Node* curr = head;
     while (curr != nullptr) {
         curr->showValue();
