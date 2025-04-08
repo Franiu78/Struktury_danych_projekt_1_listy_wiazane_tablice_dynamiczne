@@ -1,80 +1,204 @@
-﻿#include <iostream>
+#include <iostream>
 #include <chrono>
-#include <functional>
 #include "DynamicArray.h"
 #include "LinkedLIst.h"
 
 using namespace std;
 using namespace std::chrono;
 
-// Uniwersalna funkcja do pomiaru czasu działania
-void measureTime(const string& label, const function<void()>& func) {
-    auto start = high_resolution_clock::now();
-    func();
-    auto end = high_resolution_clock::now();
-    auto duration = duration_cast<milliseconds>(end - start);
-    cout << label << ": " << duration.count() << " ms" << endl;
-}
+
+
 
 int main() {
-    const int N = 100000;
+    int il = 50;
+    int rozmiar = 10000;
+    LinkedList list;
+    DynamicArray arr(rozmiar);
+    long long licznik;
+    auto start = high_resolution_clock::now();
+    auto stop = high_resolution_clock::now();
 
-    DynamicArray arr1(4);
-    DynamicArray arr2(4);
-    DynamicArray arr3(4);
-    DynamicArray arr4(4);
-    DynamicArray arr5(4);
-    DynamicArray arr6(4);
+    for (int i = 0; i < rozmiar; i++)
+    {
+        arr.pushBack(i);
+        list.addToEnd(i);
+    }
 
-    // pushBack
-    measureTime("pushBack", [&]() {
-        for (int i = 0; i < N; ++i)
-            arr1.pushBack(i);
-        });
 
-    // pushFront
-    measureTime("pushFront", [&]() {
-        for (int i = 0; i < N; ++i)
-            arr2.pushFront(i);
-        });
+    // --- pushBack / addToEnd ---
+    licznik = 0;
+    for (int i = 0; i < il; i++)
+    {
+        
+        start = high_resolution_clock::now();
+        arr.pushBack(2137);
+        stop = high_resolution_clock::now();
+        licznik += duration_cast<nanoseconds>(stop - start).count();
+        arr.popBack();
+        
+    }
+    cout <<"DA dodaj na koniec " << endl << licznik / il << endl;
 
-    // pushAt (do środka - liczony ręcznie)
-    int currentSize = 0;
-    measureTime("pushAt (środek)", [&]() {
-        for (int i = 0; i < N; ++i) {
-            arr3.pushAt(currentSize / 2, i);
-            currentSize++;
-        }
-        });
 
-    // popBack
-    measureTime("popBack", [&]() {
-        for (int i = 0; i < N; ++i)
-            arr1.popBack();
-        });
+    licznik = 0;
+    for (int i = 0; i < il; i++)
+    {
 
-    // popFront
-    measureTime("popFront", [&]() {
-        for (int i = 0; i < N; ++i)
-            arr2.popFront();
-        });
+        start = high_resolution_clock::now();
+        list.addToEnd(2137);
+        stop = high_resolution_clock::now();
+        licznik += duration_cast<nanoseconds>(stop - start).count();
+        list.deleteFromEnd();
 
-    // popAt (z środka) – przygotowanie
-    for (int i = 0; i < N; ++i) arr4.pushBack(i);
-    currentSize = N;
-    measureTime("popAt (środek)", [&]() {
-        for (int i = 0; i < N; ++i) {
-            arr4.popAt(currentSize / 2);
-            currentSize--;
-        }
-        });
+    }
+    cout << "LL dodaj na koniec " << endl << licznik / il << endl;
 
-    // search – przygotowanie
-    for (int i = 0; i < N; ++i) arr5.pushBack(i);
-    measureTime("search", [&]() {
-        for (int i = 0; i < N; ++i)
-            arr5.search(i);
-        });
 
+
+    // --- pushFront / addToStart ---
+    licznik = 0;
+    for (int i = 0; i < il; i++)
+    {
+
+        start = high_resolution_clock::now();
+        arr.pushFront(2137);
+        stop = high_resolution_clock::now();
+        licznik += duration_cast<nanoseconds>(stop - start).count();
+        arr.popFront();
+
+    }
+    cout << "DA dodaj na poczatek " << endl << licznik / il << endl;
+
+
+    licznik = 0;
+    for (int i = 0; i < il; i++)
+    {
+
+        start = high_resolution_clock::now();
+        list.addToStart(2137);
+        stop = high_resolution_clock::now();
+        licznik += duration_cast<nanoseconds>(stop - start).count();
+        list.deleteFromStart();
+
+    }
+    cout << "LL dodaj na poczatek " << endl << licznik / il << endl;
+
+    // --- pushAt / addToPosition  ---
+    licznik = 0;
+    for (int i = 0; i < il; i++) {
+        int index = rozmiar / 2;
+        start = high_resolution_clock::now();
+        arr.pushAt(index, 2137);
+        stop = high_resolution_clock::now();
+        licznik += duration_cast<nanoseconds>(stop - start).count();
+        arr.popAt(index);
+    }
+    cout << "DA dodaj na wybrany indeks " << endl << licznik / il << endl;
+
+    licznik = 0;
+    for (int i = 0; i < il; i++) {
+        int index = rozmiar / 2;
+        start = high_resolution_clock::now();
+        list.addToPosition(2137, index);
+        stop = high_resolution_clock::now();
+        licznik += duration_cast<nanoseconds>(stop - start).count();
+        list.deleteFromPos(index);
+    }
+    cout << "LL dodaj na wybrany indkes " << endl << licznik / il  << endl;
+
+    // --- popBack / deleteFromEnd ---
+    licznik = 0;
+    for (int i = 0; i < il; i++)
+    {
+
+        
+        arr.pushBack(2137);
+        start = high_resolution_clock::now();  
+        arr.popBack();       
+        stop = high_resolution_clock::now();
+        licznik += duration_cast<nanoseconds>(stop - start).count();
+        
+
+    }
+    cout << "DA usun z koniec " << endl << licznik / il << endl;
+
+
+    licznik = 0;
+    for (int i = 0; i < il; i++)
+    {        
+        list.addToEnd(2137);
+        start = high_resolution_clock::now();
+        list.deleteFromEnd();
+        stop = high_resolution_clock::now();
+        licznik += duration_cast<nanoseconds>(stop - start).count();
+    }
+    cout << "LL usun z koniec " << endl << licznik / il << endl;
+
+    // --- popFront / deleteFromStart ---
+    licznik = 0;
+    for (int i = 0; i < il; i++)
+    {   
+        arr.pushFront(2137);  
+        start = high_resolution_clock::now();
+        arr.popFront();
+        stop = high_resolution_clock::now();
+        licznik += duration_cast<nanoseconds>(stop - start).count();
+    }
+    cout << "DA usun z poczatek " << endl << licznik / il << endl;
+
+
+    licznik = 0;
+    for (int i = 0; i < il; i++)
+    {
+        list.addToStart(2137);        
+        start = high_resolution_clock::now();
+        list.deleteFromStart();
+        stop = high_resolution_clock::now();
+        licznik += duration_cast<nanoseconds>(stop - start).count();
+    }
+    cout << "LL usun z poczatek " << endl << licznik / il << endl;
+
+    // --- popAt / deleteFromPos ---
+
+    licznik = 0;
+    for (int i = 0; i < il; i++) {
+        int index = rozmiar / 2;
+        arr.pushAt(index, 2137);
+        start = high_resolution_clock::now();       
+        arr.popAt(index);
+        stop = high_resolution_clock::now();
+        licznik += duration_cast<nanoseconds>(stop - start).count();
+    }
+    cout << "DA usun z wybrany indeks " << endl << licznik / il << endl;
+
+    licznik = 0;
+    for (int i = 0; i < il; i++) {
+        int index = rozmiar / 2;
+        list.addToPosition(2137, index);
+        start = high_resolution_clock::now();
+        list.deleteFromPos(index);
+        stop = high_resolution_clock::now();
+        licznik += duration_cast<nanoseconds>(stop - start).count();
+    }
+    cout << "LL usun z wybrany indkes " << endl << licznik / il << endl;
+    // --- search / find  --
+    licznik = 0;
+    for (int i = 0; i < il; i++) {
+        start = high_resolution_clock::now();
+        arr.search(2137);
+        stop = high_resolution_clock::now();
+        licznik += duration_cast<nanoseconds>(stop - start).count();
+    }
+    cout << "DA search: " << endl << licznik / il  << endl;
+
+    licznik = 0;
+    for (int i = 0; i < il; i++) {
+        start = high_resolution_clock::now();
+        list.find(2137);
+        stop = high_resolution_clock::now();
+        licznik += duration_cast<nanoseconds>(stop - start).count();
+    }
+    cout << "LL search: " << endl << licznik / il  << endl;
+    
     return 0;
 }
